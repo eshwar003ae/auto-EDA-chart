@@ -1,18 +1,26 @@
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Login() {
-  const { login } = useAuth();
+  const { login, user } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  
+  // This effect will run every time the user state changes.
+  // It checks if a user is logged in and redirects them to the dashboard.
+  useEffect(() => {
+    if (user) {
+      navigate("/upload");
+    }
+  }, [user, navigate]);
+  
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Fake login - replace with API later
+    // This is the fake login from your code
     login({ email });
-    navigate("/upload");
+    // The useEffect hook above now handles the navigation
   };
 
   return (

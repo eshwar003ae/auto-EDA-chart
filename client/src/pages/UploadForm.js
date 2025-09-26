@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 function UploadForm() {
+  const { user } = useAuth(); // Assuming you need this for the token
   const [file, setFile] = useState(null);
   const [prompt, setPrompt] = useState("");
   const [loading, setLoading] = useState(false);
@@ -20,10 +22,16 @@ function UploadForm() {
     formData.append("file", file);
     formData.append("prompt", prompt);
 
+    // Get the token from localStorage
+    const token = localStorage.getItem("token");
+
     try {
         const response = await fetch("http://localhost:8000/api/analyze", {
             method: 'POST',
             body: formData,
+            headers: {
+              "Authorization": `Bearer ${token}` // Include the token in the header
+            }
         });
         const data = await response.json();
         console.log(data);
