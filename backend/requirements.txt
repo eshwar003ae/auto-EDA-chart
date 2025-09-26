@@ -1,7 +1,0 @@
-fastapi
-uvicorn[standard]
-pandas
-matplotlib
-seaborn
-python-multipart
-openpyxl
